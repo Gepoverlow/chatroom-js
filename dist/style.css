@@ -7,20 +7,19 @@
 body,
 html {
   min-height: 100vh;
+  background-color: rgb(36, 34, 34);
 }
 
-#chatroom-container {
+#container-all {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  gap: 2em;
 }
 
-#read-message-container {
-  padding: 2em;
-}
-
-#write-message-container {
-  padding: 2em;
+#container-intro {
+  color: rgb(250, 242, 242);
+  font-family: "Baloo 2", cursive;
 }
