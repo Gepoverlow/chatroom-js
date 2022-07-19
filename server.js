@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 
 const app = express();
-const clientPath = `${__dirname}/../client`;
+const clientPath = `${__dirname}/./dist`;
 
 app.use(express.static(clientPath));
 
