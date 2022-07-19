@@ -19,17 +19,21 @@ __webpack_require__.r(__webpack_exports__);
 
 class Chatroom {
   #user;
-  constructor(username) {
+  constructor() {
+    this.#user = undefined;
+  }
+
+  setUser(username) {
     this.#user = new _User__WEBPACK_IMPORTED_MODULE_0__.User(username);
-    this.init();
   }
 
   getUser() {
     return this.#user;
   }
 
-  init() {
+  init(username) {
     (0,_dom_stuff_chatRoomRender__WEBPACK_IMPORTED_MODULE_1__.renderChatroom)();
+    this.setUser(username);
   }
 }
 
@@ -92,7 +96,12 @@ class User {
   sendMessage(what) {
     const message = new _Message__WEBPACK_IMPORTED_MODULE_0__.Message(what);
     const composedMessage = `${this.#userName} said: ${message.getText()}`;
-    console.log(composedMessage);
+
+    const msgUl = document.getElementById("chatbox-ul");
+
+    const messageLi = document.createElement("li");
+    messageLi.textContent = composedMessage;
+    msgUl.appendChild(messageLi);
   }
 }
 
@@ -172,10 +181,12 @@ function chatMessageRender(parent) {
 
   const chatMessageInput = document.createElement("input");
   chatMessageInput.className = "form-control";
+  chatMessageInput.id = "message-input";
   chatMessageBox.appendChild(chatMessageInput);
 
   const chatMessageButton = document.createElement("button");
   chatMessageButton.className = "btn btn-primary";
+  chatMessageButton.id = "submit-message-button";
   chatMessageButton.textContent = "Submit Message";
   chatMessageBox.appendChild(chatMessageButton);
 }
@@ -313,13 +324,25 @@ __webpack_require__.r(__webpack_exports__);
 
 let socket = io.connect();
 
+const containerAll = document.getElementById("container-all");
+
 const startButton = document.getElementById("start-button");
 const userNameInput = document.getElementById("username-input");
 
+const chatRoom = new _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__.Chatroom();
+
 startButton.addEventListener("click", () => {
   const userName = userNameInput.value;
-  const chatRoom = new _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__.Chatroom(userName);
-  console.log(chatRoom);
+  chatRoom.init(userName);
+});
+
+containerAll.addEventListener("click", (e) => {
+  if (e.target.id === "submit-message-button") {
+    let messageText = document.getElementById("message-input").value;
+
+    let user = chatRoom.getUser();
+    user.sendMessage(messageText);
+  }
 });
 
 // const user = chatRoom.getUser();

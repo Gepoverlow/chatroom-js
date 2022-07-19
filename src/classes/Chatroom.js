@@ -3,17 +3,21 @@ import { renderChatroom } from "../dom-stuff/chatRoomRender";
 
 class Chatroom {
   #user;
-  constructor(username) {
+  constructor() {
+    this.#user = undefined;
+  }
+
+  setUser(username) {
     this.#user = new User(username);
-    this.init();
   }
 
   getUser() {
     return this.#user;
   }
 
-  init() {
+  init(username) {
     renderChatroom();
+    this.setUser(username);
   }
 }
 

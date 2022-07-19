@@ -14,7 +14,12 @@ class User {
   sendMessage(what) {
     const message = new Message(what);
     const composedMessage = `${this.#userName} said: ${message.getText()}`;
-    console.log(composedMessage);
+
+    const msgUl = document.getElementById("chatbox-ul");
+
+    const messageLi = document.createElement("li");
+    messageLi.textContent = composedMessage;
+    msgUl.appendChild(messageLi);
   }
 }
 

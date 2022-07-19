@@ -29,12 +29,16 @@ html {
   min-width: 100vw;
   display: grid;
   padding: 1em;
-  grid-template-columns: 4fr 1fr;
-  grid-template-rows: 5fr 1fr;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 5fr) minmax(0, 1fr);
 }
 
 #container-chatbox {
   background-color: rgb(250, 242, 242);
+}
+
+#chatbox-ul {
+  max-height: 510px;
   overflow: scroll;
 }
 

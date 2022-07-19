@@ -2,13 +2,25 @@ import { Chatroom } from "./classes/Chatroom";
 
 let socket = io.connect();
 
+const containerAll = document.getElementById("container-all");
+
 const startButton = document.getElementById("start-button");
 const userNameInput = document.getElementById("username-input");
 
+const chatRoom = new Chatroom();
+
 startButton.addEventListener("click", () => {
   const userName = userNameInput.value;
-  const chatRoom = new Chatroom(userName);
-  console.log(chatRoom);
+  chatRoom.init(userName);
+});
+
+containerAll.addEventListener("click", (e) => {
+  if (e.target.id === "submit-message-button") {
+    let messageText = document.getElementById("message-input").value;
+
+    let user = chatRoom.getUser();
+    user.sendMessage(messageText);
+  }
 });
 
 // const user = chatRoom.getUser();
