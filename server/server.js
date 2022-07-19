@@ -16,6 +16,16 @@ server.listen(port, () => {
 
 const io = require("socket.io")(server);
 
+let counter = 0;
 io.on("connection", (socket) => {
-  console.log("someone connected");
+  counter++;
+  console.log(`Persons connected: ${counter}`);
+
+  socket.on("sendToAll", (message) => {
+    io.emit("displayMessage", message);
+  });
+
+  socket.on("sendToOwn", (message) => {
+    socket.emit("displayMessage", message);
+  });
 });
