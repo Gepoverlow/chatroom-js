@@ -13,16 +13,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Chatroom": () => (/* binding */ Chatroom)
 /* harmony export */ });
 /* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./User */ "./src/classes/User.js");
+/* harmony import */ var _dom_stuff_chatRoomRender__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-stuff/chatRoomRender */ "./src/dom-stuff/chatRoomRender.js");
+
 
 
 class Chatroom {
   #user;
   constructor(username) {
     this.#user = new _User__WEBPACK_IMPORTED_MODULE_0__.User(username);
+    this.init();
   }
 
   getUser() {
     return this.#user;
+  }
+
+  init() {
+    (0,_dom_stuff_chatRoomRender__WEBPACK_IMPORTED_MODULE_1__.renderChatroom)();
   }
 }
 
@@ -87,6 +94,150 @@ class User {
     const composedMessage = `${this.#userName} said: ${message.getText()}`;
     console.log(composedMessage);
   }
+}
+
+
+
+
+/***/ }),
+
+/***/ "./src/dom-stuff/chatBoxRender.js":
+/*!****************************************!*\
+  !*** ./src/dom-stuff/chatBoxRender.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "chatBoxRender": () => (/* binding */ chatBoxRender)
+/* harmony export */ });
+function chatBoxRender(parent) {
+  const chatBox = document.createElement("div");
+  chatBox.id = "container-chatbox";
+  parent.appendChild(chatBox);
+
+  const chatUl = document.createElement("ul");
+  chatUl.id = "chatbox-ul";
+  chatBox.appendChild(chatUl);
+}
+
+
+
+
+/***/ }),
+
+/***/ "./src/dom-stuff/chatLogoRender.js":
+/*!*****************************************!*\
+  !*** ./src/dom-stuff/chatLogoRender.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "chatLogoRender": () => (/* binding */ chatLogoRender)
+/* harmony export */ });
+function chatLogoRender(parent) {
+  const chatLogo = document.createElement("div");
+  chatLogo.id = "container-chatlogo";
+  parent.appendChild(chatLogo);
+
+  const logo = document.createElement("h5");
+  logo.textContent = "[CHATROOM-NAME]";
+  chatLogo.appendChild(logo);
+}
+
+
+
+
+/***/ }),
+
+/***/ "./src/dom-stuff/chatMessageRender.js":
+/*!********************************************!*\
+  !*** ./src/dom-stuff/chatMessageRender.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "chatMessageRender": () => (/* binding */ chatMessageRender)
+/* harmony export */ });
+function chatMessageRender(parent) {
+  const chatMessage = document.createElement("div");
+  chatMessage.id = "container-chatmessage";
+  parent.appendChild(chatMessage);
+
+  const chatMessageBox = document.createElement("div");
+  chatMessageBox.className = "input-group";
+  chatMessage.appendChild(chatMessageBox);
+
+  const chatMessageInput = document.createElement("input");
+  chatMessageInput.className = "form-control";
+  chatMessageBox.appendChild(chatMessageInput);
+
+  const chatMessageButton = document.createElement("button");
+  chatMessageButton.className = "btn btn-primary";
+  chatMessageButton.textContent = "Submit Message";
+  chatMessageBox.appendChild(chatMessageButton);
+}
+
+
+
+
+/***/ }),
+
+/***/ "./src/dom-stuff/chatOnlineRender.js":
+/*!*******************************************!*\
+  !*** ./src/dom-stuff/chatOnlineRender.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "chatOnlineRender": () => (/* binding */ chatOnlineRender)
+/* harmony export */ });
+function chatOnlineRender(parent) {
+  const chatOnline = document.createElement("div");
+  chatOnline.id = "container-chatonline";
+  parent.appendChild(chatOnline);
+}
+
+
+
+
+/***/ }),
+
+/***/ "./src/dom-stuff/chatRoomRender.js":
+/*!*****************************************!*\
+  !*** ./src/dom-stuff/chatRoomRender.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderChatroom": () => (/* binding */ renderChatroom)
+/* harmony export */ });
+/* harmony import */ var _chatMessageRender__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./chatMessageRender */ "./src/dom-stuff/chatMessageRender.js");
+/* harmony import */ var _chatLogoRender__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chatLogoRender */ "./src/dom-stuff/chatLogoRender.js");
+/* harmony import */ var _chatOnlineRender__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chatOnlineRender */ "./src/dom-stuff/chatOnlineRender.js");
+/* harmony import */ var _chatBoxRender__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./chatBoxRender */ "./src/dom-stuff/chatBoxRender.js");
+
+
+
+
+
+const containerAll = document.getElementById("container-all");
+
+function renderChatroom() {
+  containerAll.innerHTML = "";
+
+  const chatRoom = document.createElement("div");
+  chatRoom.id = "container-chatroom";
+  containerAll.appendChild(chatRoom);
+
+  (0,_chatBoxRender__WEBPACK_IMPORTED_MODULE_3__.chatBoxRender)(chatRoom);
+  (0,_chatOnlineRender__WEBPACK_IMPORTED_MODULE_2__.chatOnlineRender)(chatRoom);
+  (0,_chatMessageRender__WEBPACK_IMPORTED_MODULE_0__.chatMessageRender)(chatRoom);
+  (0,_chatLogoRender__WEBPACK_IMPORTED_MODULE_1__.chatLogoRender)(chatRoom);
 }
 
 
@@ -159,11 +310,21 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./classes/Chatroom */ "./src/classes/Chatroom.js");
 
+
 let socket = io.connect();
 
-const chatRoom = new _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__.Chatroom("gepoverlowwww");
-const user = chatRoom.getUser();
-user.sendMessage("yoooowwww");
+const startButton = document.getElementById("start-button");
+const userNameInput = document.getElementById("username-input");
+
+startButton.addEventListener("click", () => {
+  const userName = userNameInput.value;
+  const chatRoom = new _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__.Chatroom(userName);
+  console.log(chatRoom);
+});
+
+// const user = chatRoom.getUser();
+// user.sendMessage("yoooowwww");
+// user.sendMessage("hey mo");
 
 // msgAllButton.addEventListener("click", () => {
 //   let message = msgInput.value;

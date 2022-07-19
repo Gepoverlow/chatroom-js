@@ -23,3 +23,45 @@ html {
   color: rgb(250, 242, 242);
   font-family: "Baloo 2", cursive;
 }
+
+#container-chatroom {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: grid;
+  padding: 1em;
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: 5fr 1fr;
+}
+
+#container-chatbox {
+  background-color: rgb(250, 242, 242);
+  overflow: scroll;
+}
+
+#container-chatonline {
+  background-color: rgb(71, 63, 63);
+}
+
+#container-chatmessage {
+  background-color: rgb(135, 135, 179);
+  position: relative;
+}
+
+#container-chatmessage > .input-group {
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 1em;
+  margin-left: 1em;
+}
+
+#container-chatlogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(250, 242, 242);
+  padding: 0.5em;
+}
+
+.input-group {
+  width: auto;
+}
