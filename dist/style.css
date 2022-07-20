@@ -34,12 +34,13 @@ html {
 }
 
 #container-chatbox {
+  max-height: 79vh;
   background-color: rgb(250, 242, 242);
 }
 
 #chatbox-ul {
-  max-height: 510px;
-  overflow: scroll;
+  height: 100%;
+  overflow-x: scroll;
 }
 
 #container-chatonline {

@@ -15,9 +15,8 @@ class Chatroom {
     return this.#user;
   }
 
-  init(username) {
+  init() {
     renderChatroom();
-    this.setUser(username);
   }
 }
 

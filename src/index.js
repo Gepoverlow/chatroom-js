@@ -11,7 +11,13 @@ const chatRoom = new Chatroom();
 
 startButton.addEventListener("click", () => {
   const userName = userNameInput.value;
-  chatRoom.init(userName);
+  chatRoom.setUser(userName);
+  const user = chatRoom.getUser();
+  console.log(user);
+
+  if (user.getUserName()) {
+    chatRoom.init();
+  }
 });
 
 containerAll.addEventListener("click", (e) => {

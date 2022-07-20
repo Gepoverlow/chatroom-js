@@ -31,9 +31,8 @@ class Chatroom {
     return this.#user;
   }
 
-  init(username) {
+  init() {
     (0,_dom_stuff_chatRoomRender__WEBPACK_IMPORTED_MODULE_1__.renderChatroom)();
-    this.setUser(username);
   }
 }
 
@@ -333,7 +332,13 @@ const chatRoom = new _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__.Chatroom();
 
 startButton.addEventListener("click", () => {
   const userName = userNameInput.value;
-  chatRoom.init(userName);
+  chatRoom.setUser(userName);
+  const user = chatRoom.getUser();
+  console.log(user);
+
+  if (user.getUserName()) {
+    chatRoom.init();
+  }
 });
 
 containerAll.addEventListener("click", (e) => {
