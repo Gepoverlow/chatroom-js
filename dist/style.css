@@ -35,11 +35,13 @@ html {
 
 #container-chatbox {
   max-height: 78vh;
+  max-width: 80vw;
   background-color: rgb(250, 242, 242);
 }
 
 #chatbox-ul {
   height: 100%;
+  word-wrap: break-word;
   overflow-x: scroll;
   padding-bottom: 1em;
   padding-right: 1em;

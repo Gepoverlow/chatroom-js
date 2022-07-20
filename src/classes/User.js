@@ -2,9 +2,11 @@ import { Message } from "./Message";
 
 class User {
   #userName;
+  #socket;
 
-  constructor(userName) {
+  constructor(userName, socket) {
     this.#userName = userName;
+    this.#socket = socket;
   }
 
   getUserName() {
@@ -14,12 +16,7 @@ class User {
   sendMessage(what) {
     const message = new Message(what);
     const composedMessage = `${this.#userName} said: ${message.getText()}`;
-
-    const msgUl = document.getElementById("chatbox-ul");
-
-    const messageLi = document.createElement("li");
-    messageLi.textContent = composedMessage;
-    msgUl.appendChild(messageLi);
+    this.#socket.emit("sendToAll", composedMessage);
   }
 }
 

@@ -7,8 +7,8 @@ class Chatroom {
     this.#user = undefined;
   }
 
-  setUser(username) {
-    this.#user = new User(username);
+  setUser(username, socket) {
+    this.#user = new User(username, socket);
   }
 
   getUser() {

@@ -3,7 +3,6 @@ import { Chatroom } from "./classes/Chatroom";
 let socket = io.connect();
 
 const containerAll = document.getElementById("container-all");
-
 const userNameInput = document.getElementById("username-input");
 const startForm = document.getElementById("start-form");
 
@@ -12,7 +11,7 @@ const chatRoom = new Chatroom();
 startForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const userName = userNameInput.value;
-  chatRoom.setUser(userName);
+  chatRoom.setUser(userName, socket);
   const user = chatRoom.getUser();
 
   if (user.getUserName()) {
@@ -26,8 +25,10 @@ containerAll.addEventListener("click", (e) => {
     let messageText = document.getElementById("message-input");
     let messageTextValue = messageText.value;
     let user = chatRoom.getUser();
-    user.sendMessage(messageTextValue);
-    messageText.value = "";
+    if (messageTextValue) {
+      user.sendMessage(messageTextValue);
+      messageText.value = "";
+    }
   }
 });
 
@@ -41,8 +42,9 @@ containerAll.addEventListener("click", (e) => {
 //   socket.emit("sendToAll", message);
 // });
 
-// socket.on("displayMessage", (message) => {
-//   let listItem = document.createElement("li");
-//   listItem.textContent = message;
-//   msgContainerUl.appendChild(listItem);
-// });
+socket.on("displayMessage", (message) => {
+  const msgUl = document.getElementById("chatbox-ul");
+  const messageLi = document.createElement("li");
+  messageLi.textContent = message;
+  msgUl.appendChild(messageLi);
+});
