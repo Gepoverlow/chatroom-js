@@ -94,10 +94,18 @@ class User {
     return this.#userName;
   }
 
-  sendMessage(what) {
+  getSocket() {
+    return this.#socket;
+  }
+
+  sendMessageToGeneral(what) {
     const message = new _Message__WEBPACK_IMPORTED_MODULE_0__.Message(what);
     const composedMessage = `${this.#userName} said: ${message.getText()}`;
     this.#socket.emit("sendToAll", composedMessage);
+  }
+
+  logIn() {
+    this.#socket.emit("newUser", this.#socket.id);
   }
 }
 
@@ -336,7 +344,7 @@ startForm.addEventListener("submit", (e) => {
   const userName = userNameInput.value;
   chatRoom.setUser(userName, socket);
   const user = chatRoom.getUser();
-
+  user.logIn();
   if (user.getUserName()) {
     chatRoom.init();
   }
@@ -349,27 +357,25 @@ containerAll.addEventListener("click", (e) => {
     let messageTextValue = messageText.value;
     let user = chatRoom.getUser();
     if (messageTextValue) {
-      user.sendMessage(messageTextValue);
+      user.sendMessageToGeneral(messageTextValue);
       messageText.value = "";
     }
   }
 });
-
-// const user = chatRoom.getUser();
-// user.sendMessage("yoooowwww");
-// user.sendMessage("hey mo");
-
-// msgAllButton.addEventListener("click", () => {
-//   let message = msgInput.value;
-//   msgInput.value = "";
-//   socket.emit("sendToAll", message);
-// });
 
 socket.on("displayMessage", (message) => {
   const msgUl = document.getElementById("chatbox-ul");
   const messageLi = document.createElement("li");
   messageLi.textContent = message;
   msgUl.appendChild(messageLi);
+});
+
+socket.on("printGeneralChatUsers", (generalChatUsers) => {
+  console.log(generalChatUsers);
+});
+
+socket.on("generalChatUsersDc", (generalChatUsersDc) => {
+  console.log(generalChatUsersDc);
 });
 
 })();

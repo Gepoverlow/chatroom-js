@@ -13,10 +13,18 @@ class User {
     return this.#userName;
   }
 
-  sendMessage(what) {
+  getSocket() {
+    return this.#socket;
+  }
+
+  sendMessageToGeneral(what) {
     const message = new Message(what);
     const composedMessage = `${this.#userName} said: ${message.getText()}`;
     this.#socket.emit("sendToAll", composedMessage);
+  }
+
+  logIn() {
+    this.#socket.emit("newUser", this.#socket.id);
   }
 }
 
