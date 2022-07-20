@@ -4,16 +4,16 @@ let socket = io.connect();
 
 const containerAll = document.getElementById("container-all");
 
-const startButton = document.getElementById("start-button");
 const userNameInput = document.getElementById("username-input");
+const startForm = document.getElementById("start-form");
 
 const chatRoom = new Chatroom();
 
-startButton.addEventListener("click", () => {
+startForm.addEventListener("submit", (e) => {
+  e.preventDefault();
   const userName = userNameInput.value;
   chatRoom.setUser(userName);
   const user = chatRoom.getUser();
-  console.log(user);
 
   if (user.getUserName()) {
     chatRoom.init();
