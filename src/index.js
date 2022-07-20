@@ -22,10 +22,12 @@ startForm.addEventListener("submit", (e) => {
 
 containerAll.addEventListener("click", (e) => {
   if (e.target.id === "submit-message-button") {
-    let messageText = document.getElementById("message-input").value;
-
+    e.preventDefault();
+    let messageText = document.getElementById("message-input");
+    let messageTextValue = messageText.value;
     let user = chatRoom.getUser();
-    user.sendMessage(messageText);
+    user.sendMessage(messageTextValue);
+    messageText.value = "";
   }
 });
 
