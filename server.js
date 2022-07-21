@@ -16,13 +16,32 @@ server.listen(port, () => {
 
 const io = require("socket.io")(server);
 
-let counter = 0;
+let generalChatUsers = [];
+
 io.on("connection", (socket) => {
+  socket.join("generalChat");
+
+  socket.on("newUser", (userInfo) => {
+    generalChatUsers.push(userInfo);
+    io.emit("printGeneralChatUsers", generalChatUsers);
+  });
+
   socket.on("sendToAll", (message) => {
-    io.emit("displayMessage", message);
+    io.to("generalChat").emit("displayMessage", message);
   });
 
   socket.on("sendToOwn", (message) => {
     socket.emit("displayMessage", message);
+  });
+
+  socket.on("disconnect", () => {
+    let i = generalChatUsers
+      .map((x) => {
+        return x.socketId;
+      })
+      .indexOf(socket.id);
+    generalChatUsers.splice(i, 1);
+
+    io.emit("generalChatUsersDc", generalChatUsers);
   });
 });

@@ -24,7 +24,7 @@ class User {
   }
 
   logIn() {
-    this.#socket.emit("newUser", this.#socket.id);
+    this.#socket.emit("newUser", { username: this.#userName, socketId: this.#socket.id });
   }
 }
 

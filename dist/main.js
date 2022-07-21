@@ -19,8 +19,12 @@ __webpack_require__.r(__webpack_exports__);
 
 class Chatroom {
   #user;
-  constructor() {
+  #onlineUsers = [];
+  #roomName;
+  #isInitialized;
+  constructor(name) {
     this.#user = undefined;
+    this.#roomName = name;
   }
 
   setUser(username, socket) {
@@ -33,6 +37,23 @@ class Chatroom {
 
   init() {
     (0,_dom_stuff_chatRoomRender__WEBPACK_IMPORTED_MODULE_1__.renderChatroom)();
+    this.#isInitialized = true;
+  }
+
+  getIsInitialized() {
+    return this.#isInitialized;
+  }
+
+  setOnlineUsers(array) {
+    this.#onlineUsers = array;
+  }
+
+  getOnlineUsers() {
+    return this.#onlineUsers;
+  }
+
+  getRoomName() {
+    return this.#roomName;
   }
 }
 
@@ -105,7 +126,7 @@ class User {
   }
 
   logIn() {
-    this.#socket.emit("newUser", this.#socket.id);
+    this.#socket.emit("newUser", { username: this.#userName, socketId: this.#socket.id });
   }
 }
 
@@ -219,6 +240,25 @@ function chatOnlineRender(parent) {
   const chatOnline = document.createElement("div");
   chatOnline.id = "container-chatonline";
   parent.appendChild(chatOnline);
+
+  const currentRoomIndicator = document.createElement("h6");
+  currentRoomIndicator.id = "current-room-indicator";
+  currentRoomIndicator.textContent = "You are currently in room:";
+  chatOnline.appendChild(currentRoomIndicator);
+
+  const currentRoom = document.createElement("h6");
+  currentRoom.id = "current-room";
+  currentRoom.textContent = "Dummy-GENERAL";
+  chatOnline.appendChild(currentRoom);
+
+  const onlineUsersIndicator = document.createElement("h6");
+  onlineUsersIndicator.id = "online-users-indicator";
+  onlineUsersIndicator.textContent = "Users in this room:";
+  chatOnline.appendChild(onlineUsersIndicator);
+
+  const onlineUsersUl = document.createElement("ul");
+  onlineUsersUl.id = "online-users-ul";
+  chatOnline.appendChild(onlineUsersUl);
 }
 
 
@@ -337,16 +377,16 @@ const containerAll = document.getElementById("container-all");
 const userNameInput = document.getElementById("username-input");
 const startForm = document.getElementById("start-form");
 
-const chatRoom = new _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__.Chatroom();
+const chatRoom = new _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__.Chatroom("General");
 
 startForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const userName = userNameInput.value;
   chatRoom.setUser(userName, socket);
   const user = chatRoom.getUser();
-  user.logIn();
   if (user.getUserName()) {
     chatRoom.init();
+    user.logIn();
   }
 });
 
@@ -364,18 +404,44 @@ containerAll.addEventListener("click", (e) => {
 });
 
 socket.on("displayMessage", (message) => {
-  const msgUl = document.getElementById("chatbox-ul");
-  const messageLi = document.createElement("li");
-  messageLi.textContent = message;
-  msgUl.appendChild(messageLi);
+  if (chatRoom.getIsInitialized()) {
+    const msgUl = document.getElementById("chatbox-ul");
+    const messageLi = document.createElement("li");
+    messageLi.textContent = message;
+    msgUl.appendChild(messageLi);
+  }
 });
 
 socket.on("printGeneralChatUsers", (generalChatUsers) => {
-  console.log(generalChatUsers);
+  chatRoom.setOnlineUsers(generalChatUsers);
+  if (chatRoom.getIsInitialized()) {
+    const onlineUsersUl = document.getElementById("online-users-ul");
+    const onlineUsers = chatRoom.getOnlineUsers();
+
+    onlineUsersUl.innerHTML = ""; //TODO:CHANGE THIS
+
+    onlineUsers.forEach((user) => {
+      let userNameLi = document.createElement("li");
+      userNameLi.textContent = user.username;
+      onlineUsersUl.appendChild(userNameLi);
+    });
+  }
 });
 
 socket.on("generalChatUsersDc", (generalChatUsersDc) => {
-  console.log(generalChatUsersDc);
+  chatRoom.setOnlineUsers(generalChatUsersDc);
+  if (chatRoom.getIsInitialized()) {
+    const onlineUsersUl = document.getElementById("online-users-ul");
+    const onlineUsers = chatRoom.getOnlineUsers();
+
+    onlineUsersUl.innerHTML = ""; //TODO:CHANGE THIS
+
+    onlineUsers.forEach((user) => {
+      let userNameLi = document.createElement("li");
+      userNameLi.textContent = user.username;
+      onlineUsersUl.appendChild(userNameLi);
+    });
+  }
 });
 
 })();

@@ -3,8 +3,12 @@ import { renderChatroom } from "../dom-stuff/chatRoomRender";
 
 class Chatroom {
   #user;
-  constructor() {
+  #onlineUsers = [];
+  #roomName;
+  #isInitialized;
+  constructor(name) {
     this.#user = undefined;
+    this.#roomName = name;
   }
 
   setUser(username, socket) {
@@ -17,6 +21,23 @@ class Chatroom {
 
   init() {
     renderChatroom();
+    this.#isInitialized = true;
+  }
+
+  getIsInitialized() {
+    return this.#isInitialized;
+  }
+
+  setOnlineUsers(array) {
+    this.#onlineUsers = array;
+  }
+
+  getOnlineUsers() {
+    return this.#onlineUsers;
+  }
+
+  getRoomName() {
+    return this.#roomName;
   }
 }
 
