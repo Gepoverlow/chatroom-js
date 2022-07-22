@@ -5,7 +5,7 @@ import { chatBoxRender } from "./chatBoxRender";
 
 const containerAll = document.getElementById("container-all");
 
-function renderChatroom() {
+function renderChatroom(username) {
   containerAll.innerHTML = "";
 
   const chatRoom = document.createElement("div");
@@ -15,7 +15,7 @@ function renderChatroom() {
   chatBoxRender(chatRoom);
   chatOnlineRender(chatRoom);
   chatMessageRender(chatRoom);
-  chatLogoRender(chatRoom);
+  chatLogoRender(chatRoom, username);
 }
 
 export { renderChatroom };

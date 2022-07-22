@@ -20,7 +20,7 @@ class Chatroom {
   }
 
   init() {
-    renderChatroom();
+    renderChatroom(this.#user.getUserName());
     this.#isInitialized = true;
   }
 

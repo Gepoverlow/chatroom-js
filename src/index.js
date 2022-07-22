@@ -11,12 +11,15 @@ const chatRoom = new Chatroom("General");
 startForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const userName = userNameInput.value;
-
-  chatRoom.setUser(userName, socket);
-  const user = chatRoom.getUser();
-  if (user.getUserName()) {
-    chatRoom.init();
-    user.logIn();
+  if (validateInput(userName)) {
+    chatRoom.setUser(userName.trim(), socket);
+    const user = chatRoom.getUser();
+    if (user.getUserName()) {
+      chatRoom.init();
+      user.logIn();
+    }
+  } else {
+    alert("Username cant be empty and has to be shorter than 20 characters");
   }
 });
 
@@ -86,5 +89,14 @@ function handleOnlineSection() {
         }
       });
     });
+  }
+}
+
+function validateInput(input) {
+  const trimmedInput = input.trim();
+  if (trimmedInput.length > 0 && trimmedInput.length < 20) {
+    return true;
+  } else {
+    return false;
   }
 }

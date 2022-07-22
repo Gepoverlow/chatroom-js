@@ -36,7 +36,7 @@ class Chatroom {
   }
 
   init() {
-    (0,_dom_stuff_chatRoomRender__WEBPACK_IMPORTED_MODULE_1__.renderChatroom)();
+    (0,_dom_stuff_chatRoomRender__WEBPACK_IMPORTED_MODULE_1__.renderChatroom)(this.#user.getUserName());
     this.#isInitialized = true;
   }
 
@@ -176,14 +176,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "chatLogoRender": () => (/* binding */ chatLogoRender)
 /* harmony export */ });
-function chatLogoRender(parent) {
+function chatLogoRender(parent, username) {
   const chatLogo = document.createElement("div");
   chatLogo.id = "container-chatlogo";
   parent.appendChild(chatLogo);
 
   const logo = document.createElement("h5");
-  logo.textContent = "[CHATROOM-NAME]";
+  logo.textContent = `[USER]:`;
   chatLogo.appendChild(logo);
+
+  const userSpan = document.createElement("span");
+  userSpan.textContent = `${username}`;
+  chatLogo.appendChild(userSpan);
 }
 
 
@@ -299,7 +303,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const containerAll = document.getElementById("container-all");
 
-function renderChatroom() {
+function renderChatroom(username) {
   containerAll.innerHTML = "";
 
   const chatRoom = document.createElement("div");
@@ -309,7 +313,7 @@ function renderChatroom() {
   (0,_chatBoxRender__WEBPACK_IMPORTED_MODULE_3__.chatBoxRender)(chatRoom);
   (0,_chatOnlineRender__WEBPACK_IMPORTED_MODULE_2__.chatOnlineRender)(chatRoom);
   (0,_chatMessageRender__WEBPACK_IMPORTED_MODULE_0__.chatMessageRender)(chatRoom);
-  (0,_chatLogoRender__WEBPACK_IMPORTED_MODULE_1__.chatLogoRender)(chatRoom);
+  (0,_chatLogoRender__WEBPACK_IMPORTED_MODULE_1__.chatLogoRender)(chatRoom, username);
 }
 
 
@@ -394,12 +398,15 @@ const chatRoom = new _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__.Chatroom("Ge
 startForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const userName = userNameInput.value;
-
-  chatRoom.setUser(userName, socket);
-  const user = chatRoom.getUser();
-  if (user.getUserName()) {
-    chatRoom.init();
-    user.logIn();
+  if (validateInput(userName)) {
+    chatRoom.setUser(userName.trim(), socket);
+    const user = chatRoom.getUser();
+    if (user.getUserName()) {
+      chatRoom.init();
+      user.logIn();
+    }
+  } else {
+    alert("Username cant be empty and has to be shorter than 20 characters");
   }
 });
 
@@ -469,6 +476,15 @@ function handleOnlineSection() {
         }
       });
     });
+  }
+}
+
+function validateInput(input) {
+  const trimmedInput = input.trim();
+  if (trimmedInput.length > 0 && trimmedInput.length < 20) {
+    return true;
+  } else {
+    return false;
   }
 }
 
