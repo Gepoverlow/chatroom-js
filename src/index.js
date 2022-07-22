@@ -5,14 +5,17 @@ let socket = io.connect();
 const containerAll = document.getElementById("container-all");
 const userNameInput = document.getElementById("username-input");
 const startForm = document.getElementById("start-form");
+const colorInput = document.getElementById("color-input");
 
 const chatRoom = new Chatroom("General");
 
 startForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const userName = userNameInput.value;
+  const colorValue = colorInput.value;
+
   if (validateInput(userName)) {
-    chatRoom.setUser(userName.trim(), socket);
+    chatRoom.setUser(userName.trim(), socket, colorValue);
     const user = chatRoom.getUser();
     if (user.getUserName()) {
       chatRoom.init();
@@ -36,11 +39,12 @@ containerAll.addEventListener("click", (e) => {
   }
 });
 
-socket.on("displayMessage", (message) => {
+socket.on("displayMessage", (data) => {
   if (chatRoom.getIsInitialized()) {
     const msgUl = document.getElementById("chatbox-ul");
     const messageLi = document.createElement("li");
-    messageLi.textContent = message;
+    messageLi.style.color = `${data.color}`;
+    messageLi.textContent = data.msg;
     msgUl.appendChild(messageLi);
   }
 });

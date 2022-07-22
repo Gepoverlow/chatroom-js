@@ -11,8 +11,8 @@ class Chatroom {
     this.#roomName = name;
   }
 
-  setUser(username, socket) {
-    this.#user = new User(username, socket);
+  setUser(username, socket, fontColor) {
+    this.#user = new User(username, socket, fontColor);
   }
 
   getUser() {

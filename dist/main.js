@@ -27,8 +27,8 @@ class Chatroom {
     this.#roomName = name;
   }
 
-  setUser(username, socket) {
-    this.#user = new _User__WEBPACK_IMPORTED_MODULE_0__.User(username, socket);
+  setUser(username, socket, fontColor) {
+    this.#user = new _User__WEBPACK_IMPORTED_MODULE_0__.User(username, socket, fontColor);
   }
 
   getUser() {
@@ -105,10 +105,12 @@ __webpack_require__.r(__webpack_exports__);
 class User {
   #userName;
   #socket;
+  #fontColor;
 
-  constructor(userName, socket) {
+  constructor(userName, socket, fontColor) {
     this.#userName = userName;
     this.#socket = socket;
+    this.#fontColor = fontColor;
   }
 
   getUserName() {
@@ -122,7 +124,7 @@ class User {
   sendMessageToGeneral(what) {
     const message = new _Message__WEBPACK_IMPORTED_MODULE_0__.Message(what);
     const composedMessage = `[to General-chat] ${this.#userName} said: ${message.getText()}`;
-    this.#socket.emit("sendToAll", composedMessage);
+    this.#socket.emit("sendToAll", { msg: composedMessage, color: this.#fontColor });
   }
 
   sendMessageToPrivate(what, who) {
@@ -132,7 +134,14 @@ class User {
   }
 
   logIn() {
-    this.#socket.emit("newUser", { username: this.#userName, socketId: this.#socket.id });
+    this.#socket.emit("newUser", {
+      username: this.#userName,
+      socketId: this.#socket.id,
+    });
+  }
+
+  getFontColor() {
+    return this.#fontColor;
   }
 }
 
@@ -392,14 +401,17 @@ let socket = io.connect();
 const containerAll = document.getElementById("container-all");
 const userNameInput = document.getElementById("username-input");
 const startForm = document.getElementById("start-form");
+const colorInput = document.getElementById("color-input");
 
 const chatRoom = new _classes_Chatroom__WEBPACK_IMPORTED_MODULE_0__.Chatroom("General");
 
 startForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const userName = userNameInput.value;
+  const colorValue = colorInput.value;
+
   if (validateInput(userName)) {
-    chatRoom.setUser(userName.trim(), socket);
+    chatRoom.setUser(userName.trim(), socket, colorValue);
     const user = chatRoom.getUser();
     if (user.getUserName()) {
       chatRoom.init();
@@ -423,11 +435,12 @@ containerAll.addEventListener("click", (e) => {
   }
 });
 
-socket.on("displayMessage", (message) => {
+socket.on("displayMessage", (data) => {
   if (chatRoom.getIsInitialized()) {
     const msgUl = document.getElementById("chatbox-ul");
     const messageLi = document.createElement("li");
-    messageLi.textContent = message;
+    messageLi.style.color = `${data.color}`;
+    messageLi.textContent = data.msg;
     msgUl.appendChild(messageLi);
   }
 });

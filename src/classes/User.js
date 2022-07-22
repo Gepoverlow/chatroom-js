@@ -3,10 +3,12 @@ import { Message } from "./Message";
 class User {
   #userName;
   #socket;
+  #fontColor;
 
-  constructor(userName, socket) {
+  constructor(userName, socket, fontColor) {
     this.#userName = userName;
     this.#socket = socket;
+    this.#fontColor = fontColor;
   }
 
   getUserName() {
@@ -20,7 +22,7 @@ class User {
   sendMessageToGeneral(what) {
     const message = new Message(what);
     const composedMessage = `[to General-chat] ${this.#userName} said: ${message.getText()}`;
-    this.#socket.emit("sendToAll", composedMessage);
+    this.#socket.emit("sendToAll", { msg: composedMessage, color: this.#fontColor });
   }
 
   sendMessageToPrivate(what, who) {
@@ -30,7 +32,14 @@ class User {
   }
 
   logIn() {
-    this.#socket.emit("newUser", { username: this.#userName, socketId: this.#socket.id });
+    this.#socket.emit("newUser", {
+      username: this.#userName,
+      socketId: this.#socket.id,
+    });
+  }
+
+  getFontColor() {
+    return this.#fontColor;
   }
 }
 

@@ -26,8 +26,8 @@ io.on("connection", (socket) => {
     io.emit("printGeneralChatUsers", generalChatUsers);
   });
 
-  socket.on("sendToAll", (message) => {
-    io.to("generalChat").emit("displayMessage", message);
+  socket.on("sendToAll", (data) => {
+    io.to("generalChat").emit("displayMessage", data);
   });
 
   socket.on("privateMessage", (data) => {
