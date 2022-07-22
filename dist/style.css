@@ -66,6 +66,11 @@ html {
 #online-users-ul {
   word-wrap: break-word;
   overflow-y: scroll;
+  color: greenyellow;
+}
+
+#online-user-li {
+  cursor: pointer;
 }
 
 #container-chatmessage {

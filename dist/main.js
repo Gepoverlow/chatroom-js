@@ -438,6 +438,7 @@ socket.on("generalChatUsersDc", (generalChatUsersDc) => {
 
     onlineUsers.forEach((user) => {
       let userNameLi = document.createElement("li");
+      userNameLi.id = "online-user-li";
       userNameLi.textContent = user.username;
       onlineUsersUl.appendChild(userNameLi);
     });

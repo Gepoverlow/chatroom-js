@@ -40,7 +40,9 @@ io.on("connection", (socket) => {
         return x.socketId;
       })
       .indexOf(socket.id);
-    generalChatUsers.splice(i, 1);
+    if (i >= 0) {
+      generalChatUsers.splice(i, 1);
+    }
 
     io.emit("generalChatUsersDc", generalChatUsers);
   });
