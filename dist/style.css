@@ -55,6 +55,10 @@ html {
   background-color: rgb(71, 63, 63);
 }
 
+#current-room {
+  cursor: pointer;
+}
+
 #current-room-indicator {
   color: rgb(250, 242, 242);
 }

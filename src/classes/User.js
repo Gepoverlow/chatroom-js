@@ -19,8 +19,14 @@ class User {
 
   sendMessageToGeneral(what) {
     const message = new Message(what);
-    const composedMessage = `${this.#userName} said: ${message.getText()}`;
+    const composedMessage = `[to General-chat] ${this.#userName} said: ${message.getText()}`;
     this.#socket.emit("sendToAll", composedMessage);
+  }
+
+  sendMessageToPrivate(what, who) {
+    const message = new Message(what);
+    const composedMessage = `[to ${who.username}] ${this.#userName} said: ${message.getText()}`;
+    this.#socket.emit("privateMessage", { msg: composedMessage, to: who.socketId });
   }
 
   logIn() {

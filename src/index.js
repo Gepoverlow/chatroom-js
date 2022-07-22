@@ -11,6 +11,7 @@ const chatRoom = new Chatroom("General");
 startForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const userName = userNameInput.value;
+
   chatRoom.setUser(userName, socket);
   const user = chatRoom.getUser();
   if (user.getUserName()) {
@@ -51,8 +52,21 @@ socket.on("printGeneralChatUsers", (generalChatUsers) => {
 
     onlineUsers.forEach((user) => {
       let userNameLi = document.createElement("li");
+      userNameLi.id = "online-user-li";
       userNameLi.textContent = user.username;
       onlineUsersUl.appendChild(userNameLi);
+
+      userNameLi.addEventListener("click", () => {
+        const ownUser = chatRoom.getUser();
+
+        let messageText = document.getElementById("message-input");
+        let messageTextValue = messageText.value;
+
+        if (messageTextValue) {
+          ownUser.sendMessageToPrivate(messageTextValue, user);
+          messageText.value = "";
+        }
+      });
     });
   }
 });
@@ -70,6 +84,19 @@ socket.on("generalChatUsersDc", (generalChatUsersDc) => {
       userNameLi.id = "online-user-li";
       userNameLi.textContent = user.username;
       onlineUsersUl.appendChild(userNameLi);
+
+      userNameLi.addEventListener("click", () => {
+        console.log(user.userName);
+      });
     });
+  }
+});
+
+socket.on("private", (message) => {
+  if (chatRoom.getIsInitialized()) {
+    const msgUl = document.getElementById("chatbox-ul");
+    const messageLi = document.createElement("li");
+    messageLi.textContent = message;
+    msgUl.appendChild(messageLi);
   }
 });

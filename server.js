@@ -30,8 +30,9 @@ io.on("connection", (socket) => {
     io.to("generalChat").emit("displayMessage", message);
   });
 
-  socket.on("sendToOwn", (message) => {
-    socket.emit("displayMessage", message);
+  socket.on("privateMessage", (data) => {
+    io.to(data.to).emit("private", data.msg);
+    socket.emit("private", data.msg);
   });
 
   socket.on("disconnect", () => {
