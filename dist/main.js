@@ -130,7 +130,11 @@ class User {
   sendMessageToPrivate(what, who) {
     const message = new _Message__WEBPACK_IMPORTED_MODULE_0__.Message(what);
     const composedMessage = `[to ${who.username}] ${this.#userName} said: ${message.getText()}`;
-    this.#socket.emit("privateMessage", { msg: composedMessage, to: who.socketId });
+    this.#socket.emit("privateMessage", {
+      msg: composedMessage,
+      to: who.socketId,
+      color: this.#fontColor,
+    });
   }
 
   logIn() {
@@ -455,11 +459,12 @@ socket.on("generalChatUsersDc", (generalChatUsersDc) => {
   handleOnlineSection();
 });
 
-socket.on("private", (message) => {
+socket.on("private", (data) => {
   if (chatRoom.getIsInitialized()) {
     const msgUl = document.getElementById("chatbox-ul");
     const messageLi = document.createElement("li");
-    messageLi.textContent = message;
+    messageLi.style.color = `${data.color}`;
+    messageLi.textContent = data.msg;
     msgUl.appendChild(messageLi);
   }
 });

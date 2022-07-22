@@ -31,8 +31,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("privateMessage", (data) => {
-    io.to(data.to).emit("private", data.msg);
-    socket.emit("private", data.msg);
+    io.to(data.to).emit("private", data);
+    socket.emit("private", data);
   });
 
   socket.on("disconnect", () => {

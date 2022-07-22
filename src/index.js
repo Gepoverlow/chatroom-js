@@ -59,11 +59,12 @@ socket.on("generalChatUsersDc", (generalChatUsersDc) => {
   handleOnlineSection();
 });
 
-socket.on("private", (message) => {
+socket.on("private", (data) => {
   if (chatRoom.getIsInitialized()) {
     const msgUl = document.getElementById("chatbox-ul");
     const messageLi = document.createElement("li");
-    messageLi.textContent = message;
+    messageLi.style.color = `${data.color}`;
+    messageLi.textContent = data.msg;
     msgUl.appendChild(messageLi);
   }
 });

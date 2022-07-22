@@ -28,7 +28,11 @@ class User {
   sendMessageToPrivate(what, who) {
     const message = new Message(what);
     const composedMessage = `[to ${who.username}] ${this.#userName} said: ${message.getText()}`;
-    this.#socket.emit("privateMessage", { msg: composedMessage, to: who.socketId });
+    this.#socket.emit("privateMessage", {
+      msg: composedMessage,
+      to: who.socketId,
+      color: this.#fontColor,
+    });
   }
 
   logIn() {
