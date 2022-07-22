@@ -21,6 +21,12 @@ function chatOnlineRender(parent) {
   const onlineUsersUl = document.createElement("ul");
   onlineUsersUl.id = "online-users-ul";
   chatOnline.appendChild(onlineUsersUl);
+
+  const privateMsgInstructions = document.createElement("span");
+  privateMsgInstructions.id = "private-msg-instructions";
+  privateMsgInstructions.textContent =
+    "[to send a PM, type the message in the input and click the user you want to send the PM to]";
+  chatOnline.appendChild(privateMsgInstructions);
 }
 
 export { chatOnlineRender };
