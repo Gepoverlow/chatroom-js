@@ -1,0 +1,35 @@
+{
+  "name": "chatroom_js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "webpack --watch",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gepoverlow/chatroom-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gepoverlow/chatroom-js/issues"
+  },
+  "homepage": "https://github.com/Gepoverlow/chatroom-js#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "css-loader": "^6.2.0",
+    "style-loader": "^3.2.1"
+  }
+}
+
+

@@ -8,7 +8,7 @@ app.use(express.static(clientPath));
 
 const server = http.createServer(app);
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 server.listen(port, () => {
   console.log("server running on " + port);
