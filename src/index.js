@@ -44,6 +44,24 @@ socket.on("displayMessage", (message) => {
 
 socket.on("printGeneralChatUsers", (generalChatUsers) => {
   chatRoom.setOnlineUsers(generalChatUsers);
+  handleOnlineSection();
+});
+
+socket.on("generalChatUsersDc", (generalChatUsersDc) => {
+  chatRoom.setOnlineUsers(generalChatUsersDc);
+  handleOnlineSection();
+});
+
+socket.on("private", (message) => {
+  if (chatRoom.getIsInitialized()) {
+    const msgUl = document.getElementById("chatbox-ul");
+    const messageLi = document.createElement("li");
+    messageLi.textContent = message;
+    msgUl.appendChild(messageLi);
+  }
+});
+
+function handleOnlineSection() {
   if (chatRoom.getIsInitialized()) {
     const onlineUsersUl = document.getElementById("online-users-ul");
     const onlineUsers = chatRoom.getOnlineUsers();
@@ -69,34 +87,4 @@ socket.on("printGeneralChatUsers", (generalChatUsers) => {
       });
     });
   }
-});
-
-socket.on("generalChatUsersDc", (generalChatUsersDc) => {
-  chatRoom.setOnlineUsers(generalChatUsersDc);
-  if (chatRoom.getIsInitialized()) {
-    const onlineUsersUl = document.getElementById("online-users-ul");
-    const onlineUsers = chatRoom.getOnlineUsers();
-
-    onlineUsersUl.innerHTML = ""; //TODO:CHANGE THIS
-
-    onlineUsers.forEach((user) => {
-      let userNameLi = document.createElement("li");
-      userNameLi.id = "online-user-li";
-      userNameLi.textContent = user.username;
-      onlineUsersUl.appendChild(userNameLi);
-
-      userNameLi.addEventListener("click", () => {
-        console.log(user.userName);
-      });
-    });
-  }
-});
-
-socket.on("private", (message) => {
-  if (chatRoom.getIsInitialized()) {
-    const msgUl = document.getElementById("chatbox-ul");
-    const messageLi = document.createElement("li");
-    messageLi.textContent = message;
-    msgUl.appendChild(messageLi);
-  }
-});
+}
