@@ -46,6 +46,7 @@ socket.on("displayMessage", (data) => {
     messageLi.style.color = `${data.color}`;
     messageLi.textContent = data.msg;
     msgUl.appendChild(messageLi);
+    msgUl.scrollTop = msgUl.scrollHeight - msgUl.clientHeight;
   }
 });
 
@@ -66,6 +67,7 @@ socket.on("private", (data) => {
     messageLi.style.color = `${data.color}`;
     messageLi.textContent = data.msg;
     msgUl.appendChild(messageLi);
+    msgUl.scrollTop = msgUl.scrollHeight - msgUl.clientHeight;
   }
 });
 
