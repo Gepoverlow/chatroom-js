@@ -37,19 +37,17 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    let disconnectedUser;
-
     let i = generalChatUsers
       .map((x) => {
         return x.socketId;
       })
       .indexOf(socket.id);
     if (i >= 0) {
-      disconnectedUser = generalChatUsers[i];
+      let disconnectedUser = generalChatUsers[i];
       generalChatUsers.splice(i, 1);
+      socket.broadcast.emit("loggedOut", disconnectedUser);
     }
 
     io.emit("generalChatUsersDc", generalChatUsers);
-    socket.broadcast.emit("loggedOut", disconnectedUser);
   });
 });
