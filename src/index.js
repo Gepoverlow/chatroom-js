@@ -71,6 +71,26 @@ socket.on("private", (data) => {
   }
 });
 
+socket.on("loggedIn", (username) => {
+  if (chatRoom.getIsInitialized()) {
+    const msgUl = document.getElementById("chatbox-ul");
+    const messageLi = document.createElement("li");
+    messageLi.textContent = `${username} has entered the chat`;
+    msgUl.appendChild(messageLi);
+    msgUl.scrollTop = msgUl.scrollHeight - msgUl.clientHeight;
+  }
+});
+
+socket.on("loggedOut", (disconnectedUser) => {
+  if (chatRoom.getIsInitialized()) {
+    const msgUl = document.getElementById("chatbox-ul");
+    const messageLi = document.createElement("li");
+    messageLi.textContent = `${disconnectedUser.username} has left the chat`;
+    msgUl.appendChild(messageLi);
+    msgUl.scrollTop = msgUl.scrollHeight - msgUl.clientHeight;
+  }
+});
+
 function handleOnlineSection() {
   if (chatRoom.getIsInitialized()) {
     const onlineUsersUl = document.getElementById("online-users-ul");

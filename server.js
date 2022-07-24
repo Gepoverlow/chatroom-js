@@ -24,6 +24,7 @@ io.on("connection", (socket) => {
   socket.on("newUser", (userInfo) => {
     generalChatUsers.push(userInfo);
     io.emit("printGeneralChatUsers", generalChatUsers);
+    socket.broadcast.emit("loggedIn", userInfo.username);
   });
 
   socket.on("sendToAll", (data) => {
@@ -36,15 +37,19 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+    let disconnectedUser;
+
     let i = generalChatUsers
       .map((x) => {
         return x.socketId;
       })
       .indexOf(socket.id);
     if (i >= 0) {
+      disconnectedUser = generalChatUsers[i];
       generalChatUsers.splice(i, 1);
     }
 
     io.emit("generalChatUsersDc", generalChatUsers);
+    socket.broadcast.emit("loggedOut", disconnectedUser);
   });
 });
